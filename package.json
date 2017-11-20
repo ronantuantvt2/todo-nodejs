@@ -14,9 +14,11 @@
     "body-parser": "^1.18.2",
     "expect": "^21.2.1",
     "express": "^4.16.2",
+    "lodash": "^4.17.4",
     "mocha": "^4.0.1",
     "mongoose": "^4.13.0",
     "nodemon": "^1.12.1",
-    "supertest": "^3.0.0"
+    "supertest": "^3.0.0",
+    "validator": "^9.1.1"
   }
 }

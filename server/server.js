@@ -1,9 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const _ = require('lodash');
 
 var {ObjectID} = require('mongodb');
 var {mongoose} = require('./db/mongoose');
 var {Todo} = require('./models/todo');
+var {User} = require('./models/user');
 var app = express();
 
 app.use(bodyParser.json());
@@ -53,6 +55,22 @@ app.get('/api/todos/:todoId', (req, res) => {
     }, (e) => {
         return res.status(400).send({});
     });
+});
+
+
+// User
+
+// POST /users
+app.post('/api/users', (req, res) => {
+    var body = _.pick(req.body, ['email', 'password']);
+    var user = new User(body);
+    
+    user.save().then((userDoc) => {
+        res.send(userDoc);    
+    }).catch((e) => {
+        res.status(400).send(e);
+    });
+    //return res.send(user);
 });
 
 app.listen(3000, () => {
