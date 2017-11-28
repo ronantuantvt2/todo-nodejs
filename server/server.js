@@ -7,6 +7,7 @@ var {mongoose} = require('./db/mongoose');
 var {Todo} = require('./models/todo');
 var {User} = require('./models/user');
 var app = express();
+var {authenticate} = require('./middleware/authenticate');
 
 app.use(bodyParser.json());
 
@@ -74,6 +75,12 @@ app.post('/api/users', (req, res) => {
         res.status(400).send(e);
     });
     //return res.send(user);
+});
+
+
+
+app.get('/api/users/me', authenticate, (req, res) => {
+    res.send(req.user);
 });
 
 app.listen(3000, () => {
