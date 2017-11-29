@@ -21,11 +21,9 @@ app.post('/api/todos', (req, res) => {
        todo: req.body.todo,
        completed: req.body.completed ? req.body.completed : false
     });
-    todo.save().then((doc) => {
-        console.log('Save todo');
+    todo.save().then((doc) => {        
         res.send(doc);
-    }, (error) => {
-       console.log('Unable to save todo'); 
+    }, (error) => {       
         res.status(400).send(error);
     });
 });
@@ -68,11 +66,10 @@ app.post('/api/users', (req, res) => {
     
     user.save().then((userDoc) => {        
         return user.generateAuthToken();        
-    }).then((token) => {
-        console.log('token:', token);
+    }).then((token) => {        
         res.header('x-auth', token).send(user);
     }).catch((e) => {
-        console.log(e);
+        //console.log(e);
         res.status(400).send(e);
     });
     //return res.send(user);
@@ -84,8 +81,9 @@ app.get('/api/users/me', authenticate, (req, res) => {
     res.send(req.user);
 });
 
-app.listen(3000, () => {
-   console.log('Server is running on port 3000');
+var port = 3000;
+app.listen(port, () => {
+   console.log(`Server is running on port {port} `);
 });
 
 module.exports = {app};

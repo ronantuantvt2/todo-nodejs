@@ -33,7 +33,7 @@ UserSchema.methods.toJSON = function() {
     var user = this;
     var userObject = user.toObject();
     
-    return _.pick(userObject, ['_id', 'email', 'password']);
+    return _.pick(userObject, ['_id', 'email']);
 };
 
 UserSchema.methods.generateAuthToken = function() {
@@ -42,7 +42,7 @@ UserSchema.methods.generateAuthToken = function() {
     var token = jwt.sign({_id: user._id.toHexString(), access}, 'abc123').toString();    
     
     user.tokens.push({access, token});
-    console.log(user.tokens);
+    
     return user.save().then(() => {
         return token;    
     });
@@ -75,8 +75,7 @@ UserSchema.pre('save', function(next) {
     
     if (user.isModified('password')) {
         bcrypt.genSalt(9, (err, salt) => {
-            bcrypt.hash(user.password, salt, (err, hash) => {
-                console.log(hash);
+            bcrypt.hash(user.password, salt, (err, hash) => {                
                 user.password = hash;
                 next();
             });
