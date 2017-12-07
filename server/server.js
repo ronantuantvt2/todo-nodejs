@@ -94,9 +94,18 @@ app.post('/api/users/login', (req, res) => {
     });    
 });
 
+// DELETE users/me/token
+app.delete('/api/users/me/token', authenticate, (req, res) => {
+    req.user.removeToken(req.token).then(function() {
+        res.status(200).send();
+    }, function(error) {
+        res.status(400).send();
+    });
+});
+
 var port = 3000;
 app.listen(port, () => {
-   console.log(`Server is running on port {port} `);
+   console.log(`Server is running on port ${port} `);
 });
 
 module.exports = {app};
